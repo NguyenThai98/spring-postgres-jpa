@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: "jdbc:postgresql://localhost:5433/dvdrental"
+    url: "jdbc:postgresql://localhost:2345/dvdrental"
     username: "postgres"
     password: "nguyenthai98"
     testOnBorrow: true

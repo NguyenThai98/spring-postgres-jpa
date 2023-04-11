@@ -33,7 +33,6 @@ public class Actor implements Serializable {
     private Date lastUpdate;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "actors")
-    @JsonIgnore
     private Set<Film> films = new HashSet<Film>();
 
     public Set<Film> getFilms() {

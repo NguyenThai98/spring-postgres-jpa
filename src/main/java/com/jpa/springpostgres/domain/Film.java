@@ -1,5 +1,7 @@
 package com.jpa.springpostgres.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -54,17 +56,17 @@ public class Film implements Serializable {
 
     @Column(name = "special_features")
     private String specialFeatures;
-    @Column(name = "fulltext", nullable = false)
+
+    @Column(name = "fulltext", insertable = false,updatable = false)
     private String fulltext;
 
-    @Column(name = "fulltext")
-    private String fullText;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "actor_id", nullable = false, updatable = false)
     )
+    @JsonIgnore
     private Set<Actor> actors = new HashSet<Actor>();
 
     public Set<Actor> getActors() {
@@ -171,13 +173,7 @@ public class Film implements Serializable {
         this.specialFeatures = specialFeatures;
     }
 
-    public String getFullText() {
-        return fullText;
-    }
 
-    public void setFullText(String fullText) {
-        this.fullText = fullText;
-    }
 
     @Override
     public boolean equals(Object o) {
