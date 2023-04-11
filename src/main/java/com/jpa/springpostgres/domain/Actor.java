@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Date: 4/10/2023<br/>
@@ -30,7 +32,7 @@ public class Actor implements Serializable {
     @Column(name = "last_update")
     private Date lastUpdate;
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "actors")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "actors")
     @JsonIgnore
     private Set<Film> films = new HashSet<Film>();
 
@@ -84,5 +86,15 @@ public class Actor implements Serializable {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Actor{" +
+                "actorId=" + actorId + '\'' +
+                "firstName=" + firstName + '\'' +
+                "lastName=" + lastName + '\'' +
+                "lastUpdate=" + lastUpdate + '\'' +
+                '}';
     }
 }

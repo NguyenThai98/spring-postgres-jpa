@@ -1,10 +1,11 @@
 package com.jpa.springpostgres.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Date: 4/10/2023<br/>
@@ -19,45 +20,47 @@ public class Film implements Serializable {
     @SequenceGenerator(name = "FILM_FILM_ID_GENERATOR", sequenceName = "film_film_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FILM_FILM_ID_GENERATOR")
     @Column(name = "film_id")
-    private	Long filmId;
+    private Long filmId;
 
     @Column(name = "title")
-    private	String	title;
+    private String title;
 
     @Column(name = "description")
-    private	String	description;
+    private String description;
 
     @Column(name = "release_year")
-    private	int	releaseYear;
+    private int releaseYear;
 
     @Column(name = "language_id")
-    private	int	languageId;
+    private Long languageId;
 
     @Column(name = "rental_duration")
-    private	int	rentalDuration;
+    private int rentalDuration;
 
     @Column(name = "rental_rate")
-    private	float rentalRate;
+    private float rentalRate;
 
     @Column(name = "length")
-    private	int	length;
+    private int length;
 
     @Column(name = "replacement_cost")
-    private	float	replacementCost;
+    private float replacementCost;
 
     @Column(name = "rating")
-    private	String	rating;
+    private String rating;
 
     @Column(name = "last_update")
-    private	Date lastUpdate;
+    private Date lastUpdate;
 
     @Column(name = "special_features")
-    private	String	specialFeatures;
+    private String specialFeatures;
+    @Column(name = "fulltext", nullable = false)
+    private String fulltext;
 
     @Column(name = "fulltext")
-    private	String	fullText;
+    private String fullText;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "actor_id", nullable = false, updatable = false)
@@ -104,11 +107,11 @@ public class Film implements Serializable {
         this.releaseYear = releaseYear;
     }
 
-    public int getLanguageId() {
+    public Long getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(int languageId) {
+    public void setLanguageId(Long languageId) {
         this.languageId = languageId;
     }
 
@@ -187,5 +190,32 @@ public class Film implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(filmId);
+    }
+
+    public void setFulltext(String fulltext) {
+        this.fulltext = fulltext;
+    }
+
+    public String getFulltext() {
+        return fulltext;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "filmId=" + filmId + '\'' +
+                "title=" + title + '\'' +
+                "description=" + description + '\'' +
+                "releaseYear=" + releaseYear + '\'' +
+                "languageId=" + languageId + '\'' +
+                "rentalDuration=" + rentalDuration + '\'' +
+                "rentalRate=" + rentalRate + '\'' +
+                "length=" + length + '\'' +
+                "replacementCost=" + replacementCost + '\'' +
+                "rating=" + rating + '\'' +
+                "lastUpdate=" + lastUpdate + '\'' +
+                "specialFeatures=" + specialFeatures + '\'' +
+                "fulltext=" + fulltext + '\'' +
+                '}';
     }
 }
