@@ -1,6 +1,7 @@
 package com.jpa.springpostgres.model;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Date: 4/11/2023<br/>
@@ -21,6 +22,26 @@ public class CustomerModel {
     private Date lastUpdate  ;
 
     private int active      ;
+
+    private AddressModel address;
+
+    private Set<PaymentModel> payments;
+
+    public Set<PaymentModel> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<PaymentModel> payments) {
+        this.payments = payments;
+    }
+
+    public AddressModel getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressModel address) {
+        this.address = address;
+    }
 
     public String getFirstName() {
         return firstName;

@@ -1,6 +1,7 @@
 package com.jpa.springpostgres.controller;
 
 import com.jpa.springpostgres.domain.Customer;
+import com.jpa.springpostgres.model.CustomerModel;
 import com.jpa.springpostgres.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,17 +23,17 @@ public class CustomerController {
     }
 
     @GetMapping()
-    public Map<String, List<Customer>> getCustomers() {
+    public Map<String, List<CustomerModel>> getCustomers() {
         return Collections.singletonMap("customers", this.CustomerService.getCustomerList());
     }
 
     @PostMapping()
-    public void addCustomer() {
-        this.CustomerService.getCustomerList();
+    public void addCustomer(@RequestBody CustomerModel model) {
+        this.CustomerService.addCustomer(model);
     }
 
     @GetMapping(value="/{id}")
-    public Map<String, Customer> getCustomer(@PathVariable("id") Long id) {
+    public Map<String, CustomerModel> getCustomer(@PathVariable("id") Long id) {
         return Collections.singletonMap("customer", this.CustomerService.getCustomer(id));
     }
 

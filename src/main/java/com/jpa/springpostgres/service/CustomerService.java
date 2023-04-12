@@ -2,6 +2,8 @@ package com.jpa.springpostgres.service;
 
 import com.jpa.springpostgres.domain.Customer;
 import com.jpa.springpostgres.exception.InternalServerError;
+import com.jpa.springpostgres.mapper.CustomerMapper;
+import com.jpa.springpostgres.model.CustomerModel;
 import com.jpa.springpostgres.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,11 @@ import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
-
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getCustomerList() {
+    public List<CustomerModel> getCustomerList() {
         List<Customer> customerEntities;
 
         try {
@@ -28,7 +29,7 @@ public class CustomerService {
             throw new InternalServerError();
         }
 
-        return customerEntities;
+        return CustomerMapper.INSTANCE.listCustomerModel(customerEntities);
     }
 
     public Long countCustomers() {
@@ -43,15 +44,25 @@ public class CustomerService {
         return countAllActor;
     }
 
-    public Customer getCustomer(Long actorId) {
+    public CustomerModel getCustomer(Long actorId) {
         Customer customer;
 
         try {
+
             customer = this.customerRepository.findByCustomerId(actorId);
         } catch (Exception ex) {
             throw new InternalServerError();
         }
 
-        return customer;
+        return CustomerMapper.INSTANCE.domainToDto(customer);
+    }
+
+    public void addCustomer(CustomerModel model) {
+        try {
+            Customer customer = CustomerMapper.INSTANCE.map(model);
+            this.customerRepository.save(customer);
+        } catch (Exception ex) {
+            throw new InternalServerError();
+        }
     }
 }

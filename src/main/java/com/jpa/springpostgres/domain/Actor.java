@@ -1,7 +1,5 @@
 package com.jpa.springpostgres.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -32,7 +30,11 @@ public class Actor implements Serializable {
     @Column(name = "last_update")
     private Date lastUpdate;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "actors")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "film_actor",
+            joinColumns = @JoinColumn(name = "actor_id", nullable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "film_id", nullable = false, updatable = false)
+    )
     private Set<Film> films = new HashSet<Film>();
 
     public Set<Film> getFilms() {

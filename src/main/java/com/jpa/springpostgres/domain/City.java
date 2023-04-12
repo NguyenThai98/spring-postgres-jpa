@@ -1,9 +1,6 @@
 package com.jpa.springpostgres.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,8 +17,9 @@ public class City implements Serializable {
     @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name = "country_id", nullable = false)
-    private Integer countryId;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "country_id", insertable = false,updatable = false)
+    private Country country;
 
     @Column(name = "last_update", nullable = false)
     private Date lastUpdate;
@@ -43,12 +41,12 @@ public class City implements Serializable {
         return city;
     }
 
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
+    public Country getCountry() {
+        return country;
     }
 
-    public Integer getCountryId() {
-        return countryId;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public void setLastUpdate(Date lastUpdate) {
@@ -64,7 +62,6 @@ public class City implements Serializable {
         return "City{" +
                 "cityId=" + cityId + '\'' +
                 "city=" + city + '\'' +
-                "countryId=" + countryId + '\'' +
                 "lastUpdate=" + lastUpdate + '\'' +
                 '}';
     }

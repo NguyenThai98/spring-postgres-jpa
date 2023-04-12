@@ -1,13 +1,9 @@
 package com.jpa.springpostgres.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Date: 4/10/2023<br/>
@@ -34,7 +30,11 @@ public class Film implements Serializable {
     private int releaseYear;
 
     @Column(name = "language_id")
-    private Long languageId;
+    private	Long languageId;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id",insertable = false,updatable = false)
+    private Language language;
 
     @Column(name = "rental_duration")
     private int rentalDuration;
@@ -61,20 +61,20 @@ public class Film implements Serializable {
     private String fulltext;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "film_actor",
-            joinColumns = @JoinColumn(name = "film_id", nullable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "actor_id", nullable = false, updatable = false)
-    )
-    @JsonIgnore
-    private Set<Actor> actors = new HashSet<Actor>();
-
-    public Set<Actor> getActors() {
-        return actors;
+    public Long getLanguageId() {
+        return languageId;
     }
 
-    public void setActors(Set<Actor> actors) {
-        this.actors = actors;
+    public void setLanguageId(Long languageId) {
+        this.languageId = languageId;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public Long getFilmId() {
@@ -109,13 +109,7 @@ public class Film implements Serializable {
         this.releaseYear = releaseYear;
     }
 
-    public Long getLanguageId() {
-        return languageId;
-    }
 
-    public void setLanguageId(Long languageId) {
-        this.languageId = languageId;
-    }
 
     public int getRentalDuration() {
         return rentalDuration;
@@ -203,7 +197,6 @@ public class Film implements Serializable {
                 "title=" + title + '\'' +
                 "description=" + description + '\'' +
                 "releaseYear=" + releaseYear + '\'' +
-                "languageId=" + languageId + '\'' +
                 "rentalDuration=" + rentalDuration + '\'' +
                 "rentalRate=" + rentalRate + '\'' +
                 "length=" + length + '\'' +

@@ -34,6 +34,18 @@ public class Rental implements Serializable {
     @Column(name = "last_update", nullable = false)
     private Date lastUpdate;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id", updatable = false, insertable = false)
+    private Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public void setRentalId(Long rentalId) {
         this.rentalId = rentalId;
     }

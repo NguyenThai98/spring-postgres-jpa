@@ -25,6 +25,9 @@ public class Customer implements Serializable {
     @Column(name = "store_id")
     private Long storeId;
 
+    @Column(name = "address_id")
+    private Long addressId;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -33,9 +36,6 @@ public class Customer implements Serializable {
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "address_id")
-    private Long addressId;
 
     @Column(name = "activebool")
     private boolean activebool;
@@ -49,9 +49,39 @@ public class Customer implements Serializable {
     @Column(name = "active")
     private int active;
 
-    @OneToMany
-    @JoinColumn(name = "customer_id", updatable = false, insertable = false)
+    @OneToOne
+    @JoinColumn(name = "address_id", insertable = false,updatable = false)
+    private Address address;
+
+    @OneToMany(mappedBy = "customer")
     private Set<Payment> payments = new HashSet<>();
+
+    @OneToMany(mappedBy = "customer")
+    private Set<Rental> rentals = new HashSet<>();
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Set<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(Set<Rental> rentals) {
+        this.rentals = rentals;
+    }
 
     public Set<Payment> getPayments() {
         return payments;
@@ -77,9 +107,7 @@ public class Customer implements Serializable {
         this.storeId = storeId;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
-    }
+
 
     public String getFirstName() {
         return firstName;
@@ -105,9 +133,6 @@ public class Customer implements Serializable {
         this.email = email;
     }
 
-    public Long getAddressId() {
-        return addressId;
-    }
 
     public boolean isActivebool() {
         return activebool;
@@ -149,7 +174,6 @@ public class Customer implements Serializable {
                 "firstName=" + firstName + '\'' +
                 "lastName=" + lastName + '\'' +
                 "email=" + email + '\'' +
-                "addressId=" + addressId + '\'' +
                 "activebool=" + activebool + '\'' +
                 "createDate=" + createDate + '\'' +
                 "lastUpdate=" + lastUpdate + '\'' +

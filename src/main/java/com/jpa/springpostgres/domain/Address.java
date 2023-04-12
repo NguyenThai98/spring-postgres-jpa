@@ -25,8 +25,12 @@ public class Address implements Serializable {
     @Column(name = "district", nullable = false)
     private String district;
 
-    @Column(name = "city_id", nullable = false)
-    private Integer cityId;
+    @OneToOne
+    @JoinColumn(name = "city_id", insertable = false, updatable = false)
+    private City city;
+
+    @Column(name = "city_id")
+    private Long cityId;
 
     @Column(name = "postal_code")
     private String postalCode;
@@ -36,6 +40,22 @@ public class Address implements Serializable {
 
     @Column(name = "last_update", nullable = false)
     private Date lastUpdate;
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
@@ -69,13 +89,6 @@ public class Address implements Serializable {
         return district;
     }
 
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
-    }
-
-    public Integer getCityId() {
-        return cityId;
-    }
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
@@ -108,7 +121,6 @@ public class Address implements Serializable {
                 "address=" + address + '\'' +
                 "address2=" + address2 + '\'' +
                 "district=" + district + '\'' +
-                "cityId=" + cityId + '\'' +
                 "postalCode=" + postalCode + '\'' +
                 "phone=" + phone + '\'' +
                 "lastUpdate=" + lastUpdate + '\'' +

@@ -1,6 +1,5 @@
-package com.jpa.springpostgres.domain;
+package com.jpa.springpostgres.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,43 +7,22 @@ import java.util.Date;
  * Date: 4/11/2023<br/>
  * Time: 10:17 AM<br/>
  */
-@Table(name = "payment")
-@Entity
-public class Payment implements Serializable {
+
+public class PaymentModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @SequenceGenerator(name = "PAYMENT_ID_GENERATOR", sequenceName = "payment_payment_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAYMENT_ID_GENERATOR")
-    @Column(name = "payment_id")
+
     private Long paymentId;
 
-    @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "staff_id")
     private Long staffId;
 
-    @Column(name = "rental_id")
     private Long rentalId;
 
-    @Column(name = "amount")
     private float amount;
 
-    @Column(name = "payment_date")
     private Date paymentDate;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", updatable = false, insertable = false)
-    private Customer customer;
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
     public Long getPaymentId() {
         return paymentId;
@@ -92,17 +70,5 @@ public class Payment implements Serializable {
 
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Payment{" +
-                "paymentId=" + paymentId + '\'' +
-                "customerId=" + customerId + '\'' +
-                "staffId=" + staffId + '\'' +
-                "rentalId=" + rentalId + '\'' +
-                "amount=" + amount + '\'' +
-                "paymentDate=" + paymentDate + '\'' +
-                '}';
     }
 }
